@@ -16,6 +16,8 @@ class GoogleProvider extends OAuth2Impl
 
 
     public  $clientAppConfig;
+    private  $requestTokenUrl = "https://accounts.google.com/o/oauth2/auth";
+    private  $accessTokenUrl = "https://accounts.google.com/o/oauth2/token";
 
     function __construct(OAuthClientConfig $config)
     {
@@ -25,7 +27,6 @@ class GoogleProvider extends OAuth2Impl
 
     public function getAuthorizationUrl()
     {
-        $requestUrl="https://accounts.google.com/o/oauth2/auth";
 
         $parameter_array = array('response_type'=>'code',
             'client_id'=>$this->clientAppConfig->getApplicationId(),
@@ -35,7 +36,7 @@ class GoogleProvider extends OAuth2Impl
 
         $http_query_string =http_build_query($parameter_array);
 
-        $this->authorizeUrl = $requestUrl."?" .$http_query_string;
+        $this->authorizeUrl = $this->requestTokenUrl."?" .$http_query_string;
 
         $_SESSION["GoogleProvider"] = OAuthUtil::setUpInstance($this);
 
@@ -43,15 +44,45 @@ class GoogleProvider extends OAuth2Impl
     }
 
 
+    public function getRequestToken()
+    {
+        $requestMethod =  $_SERVER['REQUEST_METHOD'];
+
+        switch($requestMethod){
+
+            case 'GET':
+
+                if(isset($_GET['code'])){
+                    $this->requestToken  = $_GET['code'];
+                }
+                break;
+
+            case 'POST':
+
+                if(isset($_POST['code'])){
+                    $this->requestToken  = $_POST['code'];
+                }
+                break;
+
+            default:
+                $this->requestToken = NULL;
+                break;
+
+        }
+
+        return $this->requestToken;
+    }
+
+
+
     public function getAccessToken()
     {
 
+        //implementation should goes here
+
     }
 
-    public function getRequestToken()
-    {
-        return parent::getRequestToken();
-    }
+
 
     public function getProtectedResource()
     {

@@ -18,7 +18,8 @@ echo " Retrieving Data from Google <br/>";
 $providerInstance = new OAuth2Impl();
 $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::GOOGLE);
 
+$requestToken = $providerInstance->getRequestToken();
 
-//print_r($providerInstance);
+echo "Request Token [".$requestToken."]";
 
 ?>
