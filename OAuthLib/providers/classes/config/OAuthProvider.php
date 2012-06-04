@@ -12,7 +12,7 @@
 class OAuthProvider
 {
 
-    const FACEBOOK = "facebook";
-    const GOOGLE = "google";
+    const FACEBOOK  =  "facebook";
+    const GOOGLE  =  "google";
 
 }

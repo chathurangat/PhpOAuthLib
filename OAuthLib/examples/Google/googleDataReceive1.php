@@ -1,17 +1,15 @@
 <?php
 /**
- * Created by
- * Author : Chathuranga Tennakoon
- * Email  : chathuranga.t@gmail.com
- * Blog   : http://chathurangat.blogspot.com
- * Date   : 5/30/12
- * Time   : 9:09 AM
- * IDE    : JetBrains PhpStorm
- *
+ *  User      : Chathuranga Tennkoon
+ *  Blog       : http://chathurangat.blogspot.com
+ *  GitHub   : https://github.com/chathurangat
+ *  Email     : chathuranga.t@gmail.com
+ *  Location : Colombo, Sri Lanka
+ *  IDE         :  JetBrains PhpStorm.
  */
 
-include "OAuthLib/providers/OAuthProviderFactory.php";
 
+include "../../../OAuthLib/providers/OAuthProviderFactory.php";
 
 echo " Retrieving Data from Google <br/>";
 
@@ -41,7 +39,7 @@ if(($accessTokenResponse['response_status']=='success') && (array_key_exists('ac
 }
 else if(($accessTokenResponse['response_status']=='error')){
 
- $errorCode = $accessTokenResponse['error_code'];
+    $errorCode = $accessTokenResponse['error_code'];
 
     $error = OAuthErrorHandler::getErrorDescription($errorCode);
 
@@ -50,32 +48,5 @@ else if(($accessTokenResponse['response_status']=='error')){
 
 }
 
-/*
-echo "inside one method<br/>";
 
-
-$providerInstance = new OAuth2Impl();
-$providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::GOOGLE);
-
-$responseData  = $providerInstance->retrieveRequestedResourceData();
-
-if($responseData['response_status']=='success'){
-
-    echo "Google User Profile successfully retrieved <br/>";
-
-    print_r($responseData);
-
-}
-if($responseData['response_status']=='error'){
-
-    echo "Error occured while retrieivng Google User Profile <br/>";
-
-    $errorCode = $responseData['error_code'];
-
-    $error = OAuthErrorHandler::getErrorDescription($errorCode);
-
-    echo "<br/> error is [".$error."]";
-
-}
-*/
 ?>

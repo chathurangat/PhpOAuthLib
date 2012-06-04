@@ -11,6 +11,7 @@ include  "classes/config/OAuthClientConfig.php";
 include  "classes/config/OAuthProvider.php";
 include  "classes/FacebookProvider.php";
 include  "classes/GoogleProvider.php";
+include  "classes/error/OAuthErrorHandler.php";
 
 if(session_id()==""){
     session_start();
@@ -66,7 +67,6 @@ class OAuthProviderFactory
                         echo "Invalid OAuth Provider";
                         break;
                 }
-
 
         return OAuthUtil::getOriginalInstance($alteredProviderInstance);
 

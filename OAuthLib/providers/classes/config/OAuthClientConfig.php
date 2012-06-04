@@ -17,7 +17,6 @@ class OAuthClientConfig
     private $redirect_url = NULL;
     private $state = NULL;
 
-
     public function setApplicationId($application_id)
     {
         $this->application_id = $application_id;
@@ -48,9 +47,14 @@ class OAuthClientConfig
         return $this->redirect_url;
     }
 
-    public function setState($state)
+    public function setState($state=NULL )
     {
-        $this->state = $state;
+          if($state!=NULL){
+            $this->state = $state;
+          }
+        else{
+            $this->state = md5(uniqid(rand(), TRUE));
+        }
     }
 
     public function getState()
