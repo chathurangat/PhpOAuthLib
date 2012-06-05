@@ -8,7 +8,7 @@
  *  IDE         :  JetBrains PhpStorm.
  */
 
-include "core/OAuth2Impl.php";
+require_once "core/OAuth2Impl.php";
 
 class FacebookProvider extends OAuth2Impl
 {
@@ -126,7 +126,7 @@ class FacebookProvider extends OAuth2Impl
 
         }
         else{
-            //if access token is not avaialble
+            //if access token is not available
             $this->protectedResourceResponse = $this->accessTokenResponse;
 
         }

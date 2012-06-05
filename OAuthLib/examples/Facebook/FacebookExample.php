@@ -11,7 +11,7 @@
 
 echo "Facebook example <br/>";
 
-include "../../../OAuthLib/providers/OAuthProviderFactory.php";
+require_once "../../../OAuthLib/providers/OAuthProviderFactory.php";
 
 if(!isset($_GET['state'])){
 
