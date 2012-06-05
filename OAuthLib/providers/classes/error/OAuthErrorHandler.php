@@ -56,6 +56,10 @@ class OAuthErrorHandler
                 return   "Access Token is not Available";
                 break;
 
+            case 'bad_verification_code':
+                return "this code came from GitHub when trying to get the access token with already used request token";
+            break;
+
             default:
                 return "Error code is undefined";
                 break;

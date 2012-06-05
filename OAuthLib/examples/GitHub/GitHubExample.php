@@ -15,7 +15,7 @@ echo "GitHub example <br/>";
 
 include "../../../OAuthLib/providers/OAuthProviderFactory.php";
 
-if(!isset($_GET['state'])){
+if(!isset($_GET['code'])){
 
     //creating new OAuth Client configuration Object
     $config = new OAuthClientConfig();
@@ -47,6 +47,30 @@ if(!isset($_GET['state'])){
 
 }
 
+//receiving the response from the GitHub server
+if(isset($_GET["code"])){
+
+
+    $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::GitHub);
+
+    $requestTokenResponse  = $providerInstance->getRequestToken();
+
+    echo "Request token is [".$requestTokenResponse['request_token']."]<br/><br/>";
+
+    $accessTokenResponse = $providerInstance->getAccessToken();
+
+    echo "Acess Token Response <br/><br/>";
+
+    print_r($accessTokenResponse);
+
+
+    echo "Requested GitHub data <br/><br/>";
+
+    $protectedResource = $providerInstance->getProtectedResource();
+
+print_r($protectedResource);
+
+}
 
 
 

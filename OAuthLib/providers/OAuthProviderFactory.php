@@ -53,11 +53,6 @@ class OAuthProviderFactory
     static function getOAuthProvider($provider){
 
         //getting the stored provider instance from the session
-
-        $alteredProviderInstance = NULL;
-        $alteredProviderInstance = $_SESSION["GoogleProvider"];
-
-
         switch($provider){
 
             case OAuthProvider::FACEBOOK :
