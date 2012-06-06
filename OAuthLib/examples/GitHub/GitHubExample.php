@@ -47,28 +47,27 @@ if(!isset($_GET['code'])){
 
 }
 
+
+
 //receiving the response from the GitHub server
 if(isset($_GET["code"])){
 
-
-    $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::GitHub);
-
-    $requestTokenResponse  = $providerInstance->getRequestToken();
-
-    echo "Request token is [".$requestTokenResponse['request_token']."]<br/><br/>";
-
-    $accessTokenResponse = $providerInstance->getAccessToken();
-
-    echo "Acess Token Response <br/><br/>";
-
-    print_r($accessTokenResponse);
-
-
     echo "Requested GitHub data <br/><br/>";
 
-    $protectedResource = $providerInstance->getProtectedResource();
+    $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::GitHub);
+    $protectedResource = $providerInstance->retrieveRequestedResourceData();
 
-print_r($protectedResource);
+    if($protectedResource['response_status']=='success'){
+        // if successful
+        echo "Requested User Data <br/><br/>";
+
+        print_r($protectedResource);
+    }
+    else{
+        //if any error occurs
+        $errorMessage = OAuthErrorHandler::getErrorDescription($protectedResource['error_code']);
+        echo "Error message is [".$errorMessage."]<br/>";
+    }
 
 }
 

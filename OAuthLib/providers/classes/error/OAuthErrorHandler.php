@@ -52,12 +52,17 @@ class OAuthErrorHandler
                 break;
 
             //application specific
-            case 'access_token_missing':
-                return   "Access Token is not Available";
+            case 'request_token_missing':
+                return   "Request Token is not Available";
                 break;
 
             case 'bad_verification_code':
                 return "this code came from GitHub when trying to get the access token with already used request token";
+            break;
+
+            //aplication specific
+            case 'invalid_request_method':
+                return "Http request method is invalid or not supported";
             break;
 
             default:

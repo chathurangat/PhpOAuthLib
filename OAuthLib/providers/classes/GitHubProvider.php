@@ -18,7 +18,7 @@ class GitHubProvider extends OAuth2Impl
 
     protected  $requestTokenUrl = "https://github.com/login/oauth/authorize";
     protected  $accessTokenUrl  = "https://github.com/login/oauth/access_token";
-    protected  $protectedResourceUrl =  "https://api.github.com/user?access_token";
+    protected  $protectedResourceUrl =  "https://api.github.com/user";
 
 
     function __construct(OAuthClientConfig $config)
@@ -55,6 +55,7 @@ class GitHubProvider extends OAuth2Impl
 
                 if(isset($_GET['code'])){
                     $this->requestTokenResponse['request_token'] = $_GET["code"];
+                    $this->requestTokenResponse['response_status'] = "success";
                 }
                 break;
 
@@ -62,11 +63,14 @@ class GitHubProvider extends OAuth2Impl
 
                 if(isset($_POST['code'])){
                     $this->requestTokenResponse['request_token'] = $_POST["code"];
+                    $this->requestTokenResponse['response_status'] = "success";
                 }
                 break;
 
             default:
                 $this->requestTokenResponse['request_token'] = NULL;
+                $this->requestTokenResponse['response_status'] = "error";
+                $this->requestTokenResponse['error_code'] = 'invalid_request_method';
                 break;
 
         }
@@ -77,27 +81,25 @@ class GitHubProvider extends OAuth2Impl
 
     public function getAccessToken()
     {
-       //if request token is available
-        if(array_key_exists("request_token", $this->requestTokenResponse)){
+        //if request token is available
+        if($this->requestTokenResponse["response_status"]=='success'){
 
-        $requestParameterArray = array('code'=> $this->requestTokenResponse["request_token"],
-            'client_id'=> $this->clientAppConfig->getApplicationId(),
-            'client_secret'=> $this->clientAppConfig->getApplicationSecret(),
-            'redirect_uri'=>$this->clientAppConfig->getRedirectUrl(),
-            'grant_type'=> 'authorization_code'
-        );
+            $requestParameterArray = array('code'=> $this->requestTokenResponse["request_token"],
+                'client_id'=> $this->clientAppConfig->getApplicationId(),
+                'client_secret'=> $this->clientAppConfig->getApplicationSecret(),
+                'redirect_uri'=>$this->clientAppConfig->getRedirectUrl(),
+                'grant_type'=> 'authorization_code'
+            );
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->accessTokenUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_POST ,true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS,$requestParameterArray);
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $this->accessTokenUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POST ,true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,$requestParameterArray);
 
-        $response = curl_exec($ch);
-        curl_close($ch);
-
-        echo "Response [".$response;
+            $response = curl_exec($ch);
+            curl_close($ch);
 
             if(!empty($response)){
                 //if response is not empty
@@ -127,7 +129,7 @@ class GitHubProvider extends OAuth2Impl
         else{
             //if request token does not exists
             $this->accessTokenResponse['response_status'] = "error";
-            $this->accessTokenResponse['error_code'] = 'access_token_missing';
+            $this->accessTokenResponse['error_code'] = 'request_token_missing';
 
         }
 
@@ -139,7 +141,8 @@ class GitHubProvider extends OAuth2Impl
 
     public function getProtectedResource()
     {
-        if(array_key_exists('access_token',$this->accessTokenResponse)){
+
+        if($this->accessTokenResponse["response_status"]=='success'){
 
             $requestHeaderData  = array('access_token'=>$this->accessTokenResponse['access_token']);
 
@@ -154,8 +157,6 @@ class GitHubProvider extends OAuth2Impl
             $responseJson = curl_exec($ch2);
             curl_close($ch2);
 
-            echo "-----------------".$responseJson;
-
             $this->protectedResourceResponse = (array)json_decode($responseJson);
             $this->protectedResourceResponse ['response_status'] = 'success';
 
@@ -165,13 +166,19 @@ class GitHubProvider extends OAuth2Impl
             $this->protectedResourceResponse = $this->accessTokenResponse;
 
         }
+
         return $this->protectedResourceResponse;
     }
 
 
     public function retrieveRequestedResourceData()
     {
-        parent::retrieveRequestedResourceData();
+        //do all above operations in  single method
+        $this->getRequestToken();
+        $this->getAccessToken();
+        $this->getProtectedResource();
+
+        return $this->protectedResourceResponse;
     }
 
 

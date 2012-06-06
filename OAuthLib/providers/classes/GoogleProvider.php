@@ -46,63 +46,69 @@ class GoogleProvider extends OAuth2Impl
 
     public function getAccessToken()
     {
+        if($this->requestTokenResponse['response_status']=='success'){
 
-        if(($this->requestTokenResponse["state"]==$this->clientAppConfig->getState()) && ($this->requestTokenResponse["state"]!=NULL) ){
+            //if the request token is available
 
-            $requestParameterArray = array('code'=> $this->requestTokenResponse["request_token"],
-                'client_id'=> $this->clientAppConfig->getApplicationId(),
-                'client_secret'=> $this->clientAppConfig->getApplicationSecret(),
-                'redirect_uri'=>$this->clientAppConfig->getRedirectUrl(),
-                'grant_type'=> 'authorization_code'
-            );
+            if(($this->requestTokenResponse["state"]==$this->clientAppConfig->getState()) && ($this->requestTokenResponse["state"]!=NULL) ){
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $this->accessTokenUrl);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_POST ,true);
-            curl_setopt($ch, CURLOPT_POSTFIELDS,$requestParameterArray);
+                $requestParameterArray = array('code'=> $this->requestTokenResponse["request_token"],
+                    'client_id'=> $this->clientAppConfig->getApplicationId(),
+                    'client_secret'=> $this->clientAppConfig->getApplicationSecret(),
+                    'redirect_uri'=>$this->clientAppConfig->getRedirectUrl(),
+                    'grant_type'=> 'authorization_code'
+                );
 
-            $response = curl_exec($ch);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $this->accessTokenUrl);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($ch, CURLOPT_POST ,true);
+                curl_setopt($ch, CURLOPT_POSTFIELDS,$requestParameterArray);
 
-            curl_close($ch);
+                $response = curl_exec($ch);
 
-            if(!empty($response)){
-                $responseParameterArray =(array) json_decode($response);
+                curl_close($ch);
 
-                //extracting the access token if it is available
-                if(array_key_exists("access_token",$responseParameterArray)){
+                if(!empty($response)){
+                    $responseParameterArray =(array) json_decode($response);
 
-//                    $this->accessToken  = $responseParameterArray['access_token'];
+                    //extracting the access token if it is available
+                    if(array_key_exists("access_token",$responseParameterArray)){
 
-                    $this->accessTokenResponse['response_status'] = "success";
-                    $this->accessTokenResponse['access_token'] = $responseParameterArray['access_token'];
+                        $this->accessTokenResponse['response_status'] = "success";
+                        $this->accessTokenResponse['access_token'] = $responseParameterArray['access_token'];
 
+                    }
+                    else if(array_key_exists("error",$responseParameterArray) ){
+
+                        $this->accessTokenResponse['response_status'] = "error";
+                        $this->accessTokenResponse['error_code'] = $responseParameterArray['error'];
+                    }
                 }
-                else if(array_key_exists("error",$responseParameterArray) ){
+                else{
 
+                    //if there is no response from the server
                     $this->accessTokenResponse['response_status'] = "error";
-                    $this->accessTokenResponse['error_code'] = $responseParameterArray['error'];
+                    $this->accessTokenResponse['error_code'] = 'no_response';
+
                 }
+
             }
             else{
-
-                //if there is no response from the server
+                //if state is invalid
                 $this->accessTokenResponse['response_status'] = "error";
-                $this->accessTokenResponse['error_code'] = 'no_response';
+                $this->accessTokenResponse['error_code'] = 'state_invalid';
 
             }
-
         }
         else{
-            //if state is invalid
-            $this->accessTokenResponse['response_status'] = "error";
-            $this->accessTokenResponse['error_code'] = 'state_invalid';
 
+            //if the request token is not available
+            $this->accessTokenResponse = $this->requestTokenResponse;
         }
 
         return  $this->accessTokenResponse;
-
     }
 
 
@@ -110,8 +116,10 @@ class GoogleProvider extends OAuth2Impl
     public function getProtectedResource()
     {
 
-        if(array_key_exists('access_token',$this->accessTokenResponse)){
+        //        if(array_key_exists('access_token',$this->accessTokenResponse)){
+        if($this->accessTokenResponse['response_status']=='success'){
 
+            //if  access token is available
             $requestHeaderData  = array('access_token'=>$this->accessTokenResponse['access_token']);
 
             $buildUrl  = $this->protectedResourceUrl."?" .http_build_query($requestHeaderData);
@@ -145,7 +153,7 @@ class GoogleProvider extends OAuth2Impl
     public function retrieveRequestedResourceData()
     {
         //do all above operations in a single method
-
+/*
         $this->getRequestToken();
         $this->getAccessToken();
 
@@ -161,13 +169,13 @@ class GoogleProvider extends OAuth2Impl
         }
 
         return $this->protectedResourceResponse;
-
-/*
-        $this->getRequestToken();
-        $this->getAccessToken();
-        $this->getProtectedResource();
-
-        return $this->protectedResourceResponse;
 */
+
+                $this->getRequestToken();
+                $this->getAccessToken();
+                $this->getProtectedResource();
+
+                return $this->protectedResourceResponse;
+
     }
 }

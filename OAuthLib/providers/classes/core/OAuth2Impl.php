@@ -19,9 +19,6 @@ class OAuth2Impl implements OAuth2Interface
 {
 
     public   $clientAppConfig;
-//    protected  $accessToken;
-//    protected  $requestToken;
-//    protected  $requestedResource;
 
     protected  $authorizeUrl;
     protected  $requestTokenUrl;
@@ -32,7 +29,7 @@ class OAuth2Impl implements OAuth2Interface
 
     protected   $accessTokenResponse = array();
     protected   $protectedResourceResponse = array();
-    protected    $requestTokenResponse = array();
+    protected   $requestTokenResponse = array();
 
 
     public  function getAuthorizationUrl()
@@ -60,6 +57,7 @@ class OAuth2Impl implements OAuth2Interface
                 if(isset($_GET['code'])){
                     $this->requestTokenResponse['request_token'] = $_GET["code"];
                     $this->requestTokenResponse['state'] = $_GET["state"];
+                    $this->requestTokenResponse['response_status'] = 'success';
                 }
                 break;
 
@@ -68,12 +66,15 @@ class OAuth2Impl implements OAuth2Interface
                 if(isset($_POST['code'])){
                     $this->requestTokenResponse['request_token'] = $_POST["code"];
                     $this->requestTokenResponse['state'] = $_POST["state"];
+                    $this->requestTokenResponse['response_status'] = 'success';
                 }
                 break;
 
             default:
                 $this->requestTokenResponse['request_token'] = NULL;
                 $this->requestTokenResponse['state'] = NULL;
+                $this->requestTokenResponse['response_status'] = 'error';
+                $this->requestTokenResponse['error_code'] = 'invalid_request_method';
                 break;
 
         }

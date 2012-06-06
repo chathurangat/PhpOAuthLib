@@ -86,6 +86,4 @@ if(isset($_GET["state"])){
 
 }
 
-
-
 ?>
