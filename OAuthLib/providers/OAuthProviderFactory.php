@@ -13,6 +13,8 @@ require_once  "classes/error/OAuthErrorHandler.php";
 require_once  "classes/FacebookProvider.php";
 require_once  "classes/GoogleProvider.php";
 require_once  "classes/GitHubProvider.php";
+require_once  "classes/FoursquareProvider.php";
+
 
 if(session_id()==""){
     session_start();
@@ -38,6 +40,10 @@ class OAuthProviderFactory
 
             case OAuthProvider::GitHub :
                 return new GitHubProvider($config);
+                break;
+
+            case OAuthProvider::Foursquare :
+                return new FoursquareProvider($config);
                 break;
 
             default:
@@ -67,7 +73,12 @@ class OAuthProviderFactory
                 $alteredProviderInstance = $_SESSION["GitHubProvider"];
                 break;
 
+            case OAuthProvider::Foursquare :
+                $alteredProviderInstance = $_SESSION["FoursquareProvider"];
+                break;
+
             default:
+                $alteredProviderInstance = NULL;
                 echo "Invalid OAuth Provider";
                 break;
         }

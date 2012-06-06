@@ -57,20 +57,25 @@ if(isset($_GET["code"])){
     $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::GitHub);
     $protectedResource = $providerInstance->retrieveRequestedResourceData();
 
+    if($protectedResource!=NULL){
+
     if($protectedResource['response_status']=='success'){
         // if successful
         echo "Requested User Data <br/><br/>";
 
         print_r($protectedResource);
     }
-    else{
+    else if($protectedResource['response_status']=='error'){
         //if any error occurs
         $errorMessage = OAuthErrorHandler::getErrorDescription($protectedResource['error_code']);
         echo "Error message is [".$errorMessage."]<br/>";
     }
+    }
+    else{
+      //if it is null
+        echo "OAuth Provider Can't be retrieved at the moment";
 
+    }
 }
-
-
 
 ?>

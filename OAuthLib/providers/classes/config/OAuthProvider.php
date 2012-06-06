@@ -15,5 +15,6 @@ class OAuthProvider
     const FACEBOOK  =  "facebook";
     const GOOGLE  =  "google";
     const GitHub = "github";
+    const Foursquare = "foursquare";
 
 }
