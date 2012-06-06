@@ -35,6 +35,9 @@ if(!isset($_GET['code'])){
     //setup state
     $config->setState();
 
+    //setting up the scope
+    $config->setScope("user");
+
     //retrieving the GitHub OAuth Provider instance by giving the configuration object
     $providerInstance = OAuthProviderFactory::getOAuthProviderInstance($config);
 

@@ -31,6 +31,9 @@ if(!isset($_GET['state'])){
     //setting up the state
     $config->setState();
 
+    //setting up the scope
+    $config->setScope("https://www.googleapis.com/auth/userinfo.profile");
+
     //retrieving the Google OAuth Provider instance by giving the configuration object
     $providerInstance = OAuthProviderFactory::getOAuthProviderInstance($config);
 

@@ -23,7 +23,6 @@ class OAuth2Impl implements OAuth2Interface
     protected  $authorizeUrl;
     protected  $requestTokenUrl;
     protected  $accessTokenUrl;
-    protected  $scopeUrl;
     protected  $protectedResourceUrl;
 
 

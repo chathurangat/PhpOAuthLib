@@ -16,7 +16,7 @@ class GoogleProvider extends OAuth2Impl
 
     protected  $requestTokenUrl = "https://accounts.google.com/o/oauth2/auth";
     protected  $accessTokenUrl  = "https://accounts.google.com/o/oauth2/token";
-    protected  $scopeUrl = "https://www.googleapis.com/auth/userinfo.profile";
+//    protected  $scopeUrl = "https://www.googleapis.com/auth/userinfo.profile";
     protected  $protectedResourceUrl =  "https://www.googleapis.com/oauth2/v1/userinfo";
 
 
@@ -30,7 +30,7 @@ class GoogleProvider extends OAuth2Impl
         $parameter_array = array('response_type'=>'code',
             'client_id'=>$this->clientAppConfig->getApplicationId(),
             'redirect_uri'=>$this->clientAppConfig->getRedirectUrl(),
-            'scope'=>$this->scopeUrl,
+            'scope'=>$this->clientAppConfig->getScope(),
             'state'=> $this->clientAppConfig->getState()
         );
 

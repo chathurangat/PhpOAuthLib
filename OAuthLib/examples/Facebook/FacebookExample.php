@@ -55,7 +55,7 @@ if(isset($_GET["state"])){
 
     $requestTokenResponse = $providerInstance->getRequestToken();
 
-print_r($requestTokenResponse);
+    print_r($requestTokenResponse);
 
     $accessTokenResponse  =  $providerInstance->getAccessToken();
 

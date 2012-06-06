@@ -16,6 +16,7 @@ class OAuthClientConfig
     private $application_secret  = NULL;
     private $redirect_url = NULL;
     private $state = NULL;
+    private $scope = NULL;
 
     public function setApplicationId($application_id)
     {
@@ -70,6 +71,16 @@ class OAuthClientConfig
     public function getOAuthProvider()
     {
         return $this->oauth_provider;
+    }
+
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
+    }
+
+    public function getScope()
+    {
+        return $this->scope;
     }
 
 

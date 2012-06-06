@@ -32,7 +32,7 @@ class GitHubProvider extends OAuth2Impl
         $parameter_array = array('response_type'=>'code',
             'client_id'=>$this->clientAppConfig->getApplicationId(),
             'redirect_uri'=>$this->clientAppConfig->getRedirectUrl(),
-            'scope'=>'user'
+            'scope'=>$this->clientAppConfig->getScope()
         );
 
         $http_query_string =http_build_query($parameter_array);
