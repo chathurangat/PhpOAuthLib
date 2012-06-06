@@ -50,7 +50,7 @@ class GoogleProvider extends OAuth2Impl
 
             //if the request token is available
 
-            if(($this->requestTokenResponse["state"]==$this->clientAppConfig->getState()) && ($this->requestTokenResponse["state"]!=NULL) ){
+            if(($this->requestTokenResponse["state"]==$this->clientAppConfig->getState()) && ($this->requestTokenResponse["state"]!=NULL)){
 
                 $requestParameterArray = array('code'=> $this->requestTokenResponse["request_token"],
                     'client_id'=> $this->clientAppConfig->getApplicationId(),
@@ -76,8 +76,8 @@ class GoogleProvider extends OAuth2Impl
                     //extracting the access token if it is available
                     if(array_key_exists("access_token",$responseParameterArray)){
 
-                        $this->accessTokenResponse['response_status'] = "success";
                         $this->accessTokenResponse['access_token'] = $responseParameterArray['access_token'];
+                        $this->accessTokenResponse['response_status'] = "success";
 
                     }
                     else if(array_key_exists("error",$responseParameterArray) ){
@@ -153,29 +153,12 @@ class GoogleProvider extends OAuth2Impl
     public function retrieveRequestedResourceData()
     {
         //do all above operations in a single method
-/*
+
         $this->getRequestToken();
         $this->getAccessToken();
-
-        if(array_key_exists('access_token',$this->accessTokenResponse)){
-
-            $this->protectedResourceResponse = $this->getProtectedResource();
-
-        }//array_key_exists
-        else if(array_key_exists('error_code',$this->accessTokenResponse)){
-
-            $this->protectedResourceResponse =  $this->accessTokenResponse;
-
-        }
+        $this->getProtectedResource();
 
         return $this->protectedResourceResponse;
-*/
-
-                $this->getRequestToken();
-                $this->getAccessToken();
-                $this->getProtectedResource();
-
-                return $this->protectedResourceResponse;
 
     }
 }

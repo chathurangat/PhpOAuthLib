@@ -45,42 +45,30 @@ if($providerInstance!=NULL){
 }
 
 
-if(isset($_GET["state"])){
+if(isset($_GET["code"])){
 
     echo " Retrieving Data from Google <br/>";
 
     $providerInstance = new OAuth2Impl();
     $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::GOOGLE);
 
-    $requestToken = $providerInstance->getRequestToken();
+    $protectedResourceResponse  =  $providerInstance->retrieveRequestedResourceData();
 
-    echo "Request Token [".$requestToken."]<br/>";
 
-    $accessTokenResponse  =  $providerInstance->getAccessToken();
-
-    echo "Access Token Response <br/>";
-
-//print_r($accessTokenResponse);
-
-    if(($accessTokenResponse['response_status']=='success') && (array_key_exists('access_token',$accessTokenResponse))){
-
-        echo "<br/>Access Token Retrieved [".$accessTokenResponse['access_token'];
+    if(($protectedResourceResponse['response_status']=='success')){
 
         //retrieving the user profile from google
-        echo "<br/>retrieiving user profile data</br>";
-        $user_profile = $providerInstance->getProtectedResource();
-
-        print_r($user_profile);
+        echo "<br/>displaying  requested user data</br>";
+        print_r($protectedResourceResponse);
 
     }
-    else if(($accessTokenResponse['response_status']=='error')){
+    else{
 
-        $errorCode = $accessTokenResponse['error_code'];
+        $errorCode = $protectedResourceResponse['error_code'];
 
-        $error = OAuthErrorHandler::getErrorDescription($errorCode);
+        $errorMessage = OAuthErrorHandler::getErrorDescription($errorCode);
 
-        echo "<br/> error is [".$error."]";
-
+        echo "<br/> error is [".$errorMessage."]";
 
     }
 
