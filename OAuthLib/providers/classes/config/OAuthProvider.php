@@ -16,5 +16,6 @@ class OAuthProvider
     const GOOGLE  =  "google";
     const GitHub = "github";
     const Foursquare = "foursquare";
+    const WindowsLive = "windows_live";
 
 }

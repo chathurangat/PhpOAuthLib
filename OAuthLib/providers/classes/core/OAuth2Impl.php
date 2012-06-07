@@ -31,9 +31,10 @@ class OAuth2Impl implements OAuth2Interface
     protected   $requestTokenResponse = array();
 
 
-    public  function getAuthorizationUrl()
+    public function getAuthorizationUrl()
     {
-        $this->authorizeUrl;
+
+       return $this->authorizeUrl;
     }
 
 

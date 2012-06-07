@@ -8,29 +8,23 @@
  *  IDE         :  JetBrains PhpStorm.
  */
 
-echo "index page<br/>";
 
 
-include "OAuthLib/providers/OAuthProviderFactory.php";
+echo "<h3>Welcome to the PHP OAuth Library (PhpOAuthLib)</h3> <br/><br/>";
 
 
-//google example
-$config = new OAuthClientConfig();
-
-$config->setApplicationId("669970197155.apps.googleusercontent.com");
-$config->setApplicationSecret("jFnlsgVNBNkthpQ-gjOSnDiv");
-$config->setRedirectUrl("http://localhost/PhpOAuthLib/google.php");
-$config->setState("chathuranga");
-$config->setOAuthProvider(OAuthProvider::GOOGLE);
+echo "The examples can be accessible through following links <br/><br/>";
 
 
-$providerInstance = OAuthProviderFactory::getOAuthProviderInstance($config);
 
+echo '<a href="OAuthLib/examples/Google/GoogleExample.php"> Google Example </a> <br/><br/>';
 
-if($providerInstance!=NULL){
+echo '<a href="OAuthLib/examples/Facebook/FacebookExample.php"> Facebook Example </a> <br/><br/>';
 
-    echo "Authorize URL [".$providerInstance->getAuthorizationUrl()."]";
-}
+echo '<a href="OAuthLib/examples/GitHub/GitHubExample.php"> GitHub Example </a> <br/><br/>';
+
+echo '<a href="OAuthLib/examples/Foursquare/FoursquareExample.php"> Foursquare Example </a> <br/><br/>';
+
 
 
 ?>

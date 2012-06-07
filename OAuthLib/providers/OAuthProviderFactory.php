@@ -14,6 +14,7 @@ require_once  "classes/FacebookProvider.php";
 require_once  "classes/GoogleProvider.php";
 require_once  "classes/GitHubProvider.php";
 require_once  "classes/FoursquareProvider.php";
+require_once  "classes/WindowsLiveProvider.php";
 
 
 if(session_id()==""){
@@ -46,6 +47,10 @@ class OAuthProviderFactory
                 return new FoursquareProvider($config);
                 break;
 
+            case OAuthProvider::WindowsLive :
+                return new WindowsLiveProvider($config);
+                break;
+
             default:
                 echo "Invalid OAuth Provider";
                 return NULL;
@@ -75,6 +80,10 @@ class OAuthProviderFactory
 
             case OAuthProvider::Foursquare :
                 $alteredProviderInstance = $_SESSION["FoursquareProvider"];
+                break;
+
+            case OAuthProvider::WindowsLive :
+                $alteredProviderInstance = $_SESSION["WindowsLiveProvider"];
                 break;
 
             default:

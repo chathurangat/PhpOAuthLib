@@ -23,7 +23,12 @@ class OAuthUtil
 
     public static function getOriginalInstance($object){
 
-        return unserialize(gzinflate(base64_decode($object)));
+        if($object!=NULL){
+            return unserialize(gzinflate(base64_decode($object)));
+        }
+        else{
+            return NULL;
+        }
 
     }
 

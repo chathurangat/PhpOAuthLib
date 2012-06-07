@@ -80,6 +80,10 @@ class OAuthErrorHandler
                 return "Missing Access credentials";
                 break;
 
+            case 'invalid_scope':
+                return "valid scope is required [WindowsLive]";
+                break;
+
             default:
                 return "Error code is undefined";
                 break;
