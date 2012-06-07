@@ -57,7 +57,6 @@ if(isset($_GET['code']) || isset($_GET['error'])){
     print_r($requestTokenResponse);
 
 
-
     echo "-------------Access Token Response <br/><br/>";
 
     $accessTokenResponse = $oauthProvider->getAccessToken();

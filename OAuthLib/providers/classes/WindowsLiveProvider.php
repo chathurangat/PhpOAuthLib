@@ -57,7 +57,6 @@ class WindowsLiveProvider extends OAuth2Impl
             //if the request token is available
             if(($this->requestTokenResponse["state"]==$this->clientAppConfig->getState()) && ($this->requestTokenResponse["state"]!=NULL)){
 
-                echo "valid state<br/>";
 
                 $requestParameterArray = array('code'=> $this->requestTokenResponse["request_token"],
                     'client_id'=> $this->clientAppConfig->getApplicationId(),
