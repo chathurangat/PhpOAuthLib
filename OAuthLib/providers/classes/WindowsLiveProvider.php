@@ -18,7 +18,7 @@ class WindowsLiveProvider extends OAuth2Impl
 
     protected  $requestTokenUrl = "https://login.live.com/oauth20_authorize.srf";
     protected  $accessTokenUrl  = "https://login.live.com/oauth20_token.srf";
-    protected  $protectedResourceUrl =  "https://api.github.com/user";
+    protected  $protectedResourceUrl =  "https://apis.live.net/v5.0/me";
 
 
     function __construct(OAuthClientConfig $config)
@@ -122,7 +122,36 @@ class WindowsLiveProvider extends OAuth2Impl
     }
 
 
+    public function getProtectedResource()
+    {
+        if($this->accessTokenResponse['response_status']=='success'){
 
+            //if  access token is available
+            $requestHeaderData  = array('access_token'=>$this->accessTokenResponse['access_token']);
 
+            $buildUrl  = $this->protectedResourceUrl."?" .http_build_query($requestHeaderData);
+
+            $ch2 = curl_init();
+
+            curl_setopt($ch2, CURLOPT_URL, $buildUrl);
+            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
+
+            $responseJson = curl_exec($ch2);
+            curl_close($ch2);
+
+            $this->protectedResourceResponse = (array)json_decode($responseJson);
+            $this->protectedResourceResponse ['response_status'] = 'success';
+
+        }
+        else{
+            //if access token is not available
+            $this->protectedResourceResponse = $this->accessTokenResponse;
+
+        }
+
+        return $this->protectedResourceResponse;
+
+    }
 
 }

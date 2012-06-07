@@ -56,13 +56,17 @@ if(isset($_GET['code']) || isset($_GET['error'])){
 
     print_r($requestTokenResponse);
 
-
     echo "-------------Access Token Response <br/><br/>";
 
     $accessTokenResponse = $oauthProvider->getAccessToken();
 
-    echo "Access Token".$accessTokenResponse['access_token']."<br/>";
+    echo "<br/><br/>Access Token ----[".$accessTokenResponse['access_token']."]<br/><br/><br/>";
 
+    echo "Protected Resource <br/><br/>";
+
+    $protectedResourceResponse = $oauthProvider->getProtectedResource();
+
+    print_r($protectedResourceResponse);
 
 }
 
