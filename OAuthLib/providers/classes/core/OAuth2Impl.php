@@ -33,7 +33,7 @@ class OAuth2Impl implements OAuth2Interface
 
     public  function getAuthorizationUrl()
     {
-       $this->authorizeUrl;
+        $this->authorizeUrl;
     }
 
 
@@ -54,22 +54,45 @@ class OAuth2Impl implements OAuth2Interface
             case 'GET':
 
                 if(isset($_GET['code'])){
+
                     $this->requestTokenResponse['request_token'] = $_GET["code"];
-                    $this->requestTokenResponse['state'] = $_GET["state"];
+
+                    if(isset($_GET["state"])){
+                        $this->requestTokenResponse['state'] = $_GET["state"];
+                    }
                     $this->requestTokenResponse['response_status'] = 'success';
+
+                }
+                else if(isset($_GET['error'])){
+
+                    $this->requestTokenResponse['error_code'] = $_GET["error"];
+                    $this->requestTokenResponse['response_status'] = 'error';
+
                 }
                 break;
 
             case 'POST':
 
                 if(isset($_POST['code'])){
+
                     $this->requestTokenResponse['request_token'] = $_POST["code"];
-                    $this->requestTokenResponse['state'] = $_POST["state"];
+
+                    if(isset($_POST["state"])){
+                        $this->requestTokenResponse['state'] = $_POST["state"];
+                    }
                     $this->requestTokenResponse['response_status'] = 'success';
+
+                }
+                else if(isset($_POST['error'])){
+
+                    $this->requestTokenResponse['error_code'] = $_POST["error"];
+                    $this->requestTokenResponse['response_status'] = 'error';
+
                 }
                 break;
 
             default:
+
                 $this->requestTokenResponse['request_token'] = NULL;
                 $this->requestTokenResponse['state'] = NULL;
                 $this->requestTokenResponse['response_status'] = 'error';
@@ -90,7 +113,14 @@ class OAuth2Impl implements OAuth2Interface
 
     public function retrieveRequestedResourceData()
     {
-        // TODO: Implement getRequestedResourceData() method.
+        //do all above operations in a single method
+
+        $this->getRequestToken();
+        $this->getAccessToken();
+        $this->getProtectedResource();
+
+        return $this->protectedResourceResponse;
+
     }
 
 }

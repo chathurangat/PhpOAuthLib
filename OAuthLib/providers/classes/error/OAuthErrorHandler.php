@@ -58,12 +58,27 @@ class OAuthErrorHandler
 
             case 'bad_verification_code':
                 return "this code came from GitHub when trying to get the access token with already used request token";
-            break;
+                break;
 
-            //aplication specific
+            //application specific
             case 'invalid_request_method':
                 return "Http request method is invalid or not supported";
-            break;
+                break;
+
+            //gitHub specific
+            case 'user_denied':
+                return "user denied the application authorization in GitHub";
+                break;
+
+            //Foursquare and Google specific
+            case 'access_denied':
+                return "user denied the application authorization in Foursquare and Google";
+                break;
+
+
+            case 'invalid_auth':
+                return "Missing Access credentials";
+                break;
 
             default:
                 return "Error code is undefined";

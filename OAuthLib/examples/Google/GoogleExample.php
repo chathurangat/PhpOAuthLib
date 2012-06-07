@@ -48,7 +48,7 @@ if(!isset($_GET['state'])){
 }
 
 
-if(isset($_GET["code"])){
+if(isset($_GET["code"]) || isset($_GET["error"])){
 
     echo " Retrieving Data from Google <br/>";
 

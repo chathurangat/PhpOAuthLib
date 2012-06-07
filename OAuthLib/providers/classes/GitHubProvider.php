@@ -45,39 +45,6 @@ class GitHubProvider extends OAuth2Impl
     }
 
 
-    public function getRequestToken()
-    {
-        $requestMethod =  $_SERVER['REQUEST_METHOD'];
-
-        switch($requestMethod){
-
-            case 'GET':
-
-                if(isset($_GET['code'])){
-                    $this->requestTokenResponse['request_token'] = $_GET["code"];
-                    $this->requestTokenResponse['response_status'] = "success";
-                }
-                break;
-
-            case 'POST':
-
-                if(isset($_POST['code'])){
-                    $this->requestTokenResponse['request_token'] = $_POST["code"];
-                    $this->requestTokenResponse['response_status'] = "success";
-                }
-                break;
-
-            default:
-                $this->requestTokenResponse['request_token'] = NULL;
-                $this->requestTokenResponse['response_status'] = "error";
-                $this->requestTokenResponse['error_code'] = 'invalid_request_method';
-                break;
-
-        }
-
-        return $this->requestTokenResponse;
-    }
-
 
     public function getAccessToken()
     {
@@ -127,10 +94,8 @@ class GitHubProvider extends OAuth2Impl
 
         }
         else{
-            //if request token does not exists
-            $this->accessTokenResponse['response_status'] = "error";
-            $this->accessTokenResponse['error_code'] = 'request_token_missing';
 
+            $this->accessTokenResponse = $this->requestTokenResponse;
         }
 
         return $this->accessTokenResponse;
@@ -166,17 +131,6 @@ class GitHubProvider extends OAuth2Impl
             $this->protectedResourceResponse = $this->accessTokenResponse;
 
         }
-
-        return $this->protectedResourceResponse;
-    }
-
-
-    public function retrieveRequestedResourceData()
-    {
-        //do all above operations in  single method
-        $this->getRequestToken();
-        $this->getAccessToken();
-        $this->getProtectedResource();
 
         return $this->protectedResourceResponse;
     }

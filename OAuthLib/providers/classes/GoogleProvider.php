@@ -149,16 +149,4 @@ class GoogleProvider extends OAuth2Impl
 
 
 
-
-    public function retrieveRequestedResourceData()
-    {
-        //do all above operations in a single method
-
-        $this->getRequestToken();
-        $this->getAccessToken();
-        $this->getProtectedResource();
-
-        return $this->protectedResourceResponse;
-
-    }
 }

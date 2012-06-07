@@ -51,9 +51,8 @@ if(!isset($_GET['code'])){
 }
 
 
-
 //receiving the response from the GitHub server
-if(isset($_GET["code"])){
+if(isset($_GET["code"]) || isset($_GET["error"])){
 
     echo "Requested GitHub data <br/><br/>";
 

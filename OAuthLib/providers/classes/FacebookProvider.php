@@ -134,10 +134,4 @@ class FacebookProvider extends OAuth2Impl
 
     }
 
-
-    public function retrieveRequestedResourceData()
-    {
-        // TODO: Implement getRequestedResourceData() method.
-    }
-
 }
