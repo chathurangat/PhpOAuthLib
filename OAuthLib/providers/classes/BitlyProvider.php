@@ -16,7 +16,7 @@ class BitlyProvider extends OAuth2Impl
 {
 
     protected  $requestTokenUrl = "https://bitly.com/oauth/authorize";
-    protected  $accessTokenUrl  = "";
+    protected  $accessTokenUrl  = "https://bitly.com/oauth/access_token";
     protected  $protectedResourceUrl =  "";
 
 
@@ -43,5 +43,17 @@ class BitlyProvider extends OAuth2Impl
 
         return $this->authorizeUrl;
     }
+
+
+
+
+    public function getAccessToken()
+    {
+        //TODO:Implementation should goes here
+    }
+
+
+
+
 
 }

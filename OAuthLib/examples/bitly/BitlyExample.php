@@ -15,22 +15,22 @@ require_once "../../../OAuthLib/providers/OAuthProviderFactory.php";
 
 
 if(!isset($_GET['code'])){
-echo "BitlyExample";
+    echo "BitlyExample";
 
 
-$config = new OAuthClientConfig();
+    $config = new OAuthClientConfig();
 
-$config->setApplicationId("d5a771ca4716ebbe4fb28dab4471cf482392df8b");
-$config->setApplicationSecret("4bb05f1b9b4bb989f574d0163bb0adf2862f12be");
-$config->setRedirectUrl("http://localhost/PhpOAuthLib/OAuthLib/examples/bitly/BitlyExample.php");
-$config->setOAuthProvider(OAuthProvider::BITLY);
-$config->setState();
-
-
-$providerInstance = OAuthProviderFactory::getOAuthProviderInstance($config);
+    $config->setApplicationId("d5a771ca4716ebbe4fb28dab4471cf482392df8b");
+    $config->setApplicationSecret("4bb05f1b9b4bb989f574d0163bb0adf2862f12be");
+    $config->setRedirectUrl("http://localhost/PhpOAuthLib/OAuthLib/examples/bitly/BitlyExample.php");
+    $config->setOAuthProvider(OAuthProvider::BITLY);
+    $config->setState();
 
 
-echo "Url [".$providerInstance->getAuthorizationUrl();
+    $providerInstance = OAuthProviderFactory::getOAuthProviderInstance($config);
+
+
+    echo "Url [".$providerInstance->getAuthorizationUrl();
 
 }
 else{
@@ -38,11 +38,16 @@ else{
 
     $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::BITLY);
 
-echo "Request Token Response <br/>";
+    echo "Access Token Response <br/>";
 
     $requestTokenResponse =  $providerInstance->getRequestToken();
 
-    print_r($requestTokenResponse);
+    //print_r($requestTokenResponse);
+
+    $accessTokenResponse = $providerInstance->getAccessToken();
+
+    print_r($accessTokenResponse);
+
 }
 
 ?>
