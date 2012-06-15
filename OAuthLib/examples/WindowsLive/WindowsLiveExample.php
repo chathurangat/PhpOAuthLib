@@ -14,13 +14,6 @@ require_once "../../providers/OAuthProviderFactory.php";
 
 echo "Windows Live Example <br/>";
 
-/*
- *
- * redirect URL http://chathuranga.000space.com/PhpOAuthLib/OAuthLib/examples/WindowsLive/WindowsLiveExample.php
- * client id 00000000440C613B
- * client secret qW0wxzA355gSLPIY0KaZ-2DJPbEt05Fe
- */
-
 
 if(!isset($_GET['code'])){
 
@@ -33,9 +26,6 @@ if(!isset($_GET['code'])){
     $config->setScope("wl.signin");//wl.basic , wl.photos
     $config->setOAuthProvider(OAuthProvider::WindowsLive);
 
-
-
-
     $oauthProvider =   $providerInstance = OAuthProviderFactory::getOAuthProviderInstance($config);
 
     $url = $oauthProvider->getAuthorizationUrl();
@@ -45,7 +35,7 @@ if(!isset($_GET['code'])){
 
 }
 
-
+/*
 if(isset($_GET['code']) || isset($_GET['error'])){
 
     echo "----Request Token Response-------------<br/><br/>";
@@ -69,6 +59,47 @@ if(isset($_GET['code']) || isset($_GET['error'])){
     print_r($protectedResourceResponse);
 
 }
+*/
 
+
+
+
+if(isset($_GET["code"]) || isset($_GET["error"])){
+
+    echo " Retrieving Data from WindowsLive <br/>";
+
+    $providerInstance = new OAuth2Impl();
+
+    $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::WindowsLive);
+
+    $protectedResourceResponse  =  $providerInstance->retrieveRequestedResourceData();
+
+    if($protectedResourceResponse!=NULL){
+
+        if(($protectedResourceResponse['response_status']=='success')){
+
+            //retrieving the user profile from WindowsLive
+            echo "<br/>displaying  requested user data</br>";
+
+            print_r($protectedResourceResponse);
+
+        }
+        else if($protectedResourceResponse['response_status']=='error'){
+
+            $errorCode = $protectedResourceResponse['error_code'];
+
+            $errorMessage = OAuthErrorHandler::getErrorDescription($errorCode);
+
+            echo "<br/> error is [".$errorMessage."]";
+
+        }
+    }
+    else{
+        //if it is null
+        echo "OAuth Provider Can't be retrieved at the moment";
+
+    }
+
+}
 
 ?>

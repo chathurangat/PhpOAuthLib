@@ -15,6 +15,7 @@ require_once  "classes/GoogleProvider.php";
 require_once  "classes/GitHubProvider.php";
 require_once  "classes/FoursquareProvider.php";
 require_once  "classes/WindowsLiveProvider.php";
+require_once  "classes/BitlyProvider.php";
 
 
 if(session_id()==""){
@@ -51,6 +52,10 @@ class OAuthProviderFactory
                 return new WindowsLiveProvider($config);
                 break;
 
+            case OAuthProvider::BITLY:
+                return new BitlyProvider($config);
+                break;
+
             default:
                 echo "Invalid OAuth Provider";
                 return NULL;
@@ -84,6 +89,10 @@ class OAuthProviderFactory
 
             case OAuthProvider::WindowsLive :
                 $alteredProviderInstance = $_SESSION["WindowsLiveProvider"];
+                break;
+
+            case OAuthProvider::BITLY :
+                $alteredProviderInstance = $_SESSION["BitlyProvider"];
                 break;
 
             default:
