@@ -46,7 +46,12 @@ else{
 
     $accessTokenResponse = $providerInstance->getAccessToken();
 
-    print_r($accessTokenResponse);
+   // print_r($accessTokenResponse);
+
+    $protectedResource = $providerInstance->getProtectedResource();
+
+
+    print_r($protectedResource);
 
 }
 

@@ -17,7 +17,7 @@ class BitlyProvider extends OAuth2Impl
 
     protected  $requestTokenUrl = "https://bitly.com/oauth/authorize";
     protected  $accessTokenUrl  = "https://api-ssl.bitly.com/oauth/access_token";
-    protected  $protectedResourceUrl =  "";
+    protected  $protectedResourceUrl =  "https://api-ssl.bitly.com/v3/user/info";
 
 
     function __construct(OAuthClientConfig $config)
@@ -108,6 +108,41 @@ class BitlyProvider extends OAuth2Impl
     }
 
 
+
+
+
+
+    public function getProtectedResource()
+    {
+
+        if($this->accessTokenResponse["response_status"]=='success'){
+
+            $requestHeaderData  = array('access_token'=>$this->accessTokenResponse['access_token']);
+
+            $buildUrl  = $this->protectedResourceUrl."?" .http_build_query($requestHeaderData);
+
+            $ch2 = curl_init();
+
+            curl_setopt($ch2, CURLOPT_URL, $buildUrl);
+            curl_setopt($ch2, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch2, CURLOPT_SSL_VERIFYPEER, false);
+
+            $responseJson = curl_exec($ch2);
+
+            curl_close($ch2);
+
+            $this->protectedResourceResponse = (array)json_decode($responseJson);
+            $this->protectedResourceResponse ['response_status'] = 'success';
+
+        }
+        else{
+            //if access token is not available
+            $this->protectedResourceResponse = $this->accessTokenResponse;
+
+        }
+
+        return $this->protectedResourceResponse;
+    }
 
 
 
