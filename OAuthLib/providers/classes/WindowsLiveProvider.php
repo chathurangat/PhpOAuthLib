@@ -122,6 +122,8 @@ class WindowsLiveProvider extends OAuth2Impl
     }
 
 
+
+
     public function getProtectedResource()
     {
         if($this->accessTokenResponse['response_status']=='success'){

@@ -16,7 +16,7 @@ class BitlyProvider extends OAuth2Impl
 {
 
     protected  $requestTokenUrl = "https://bitly.com/oauth/authorize";
-    protected  $accessTokenUrl  = "https://bitly.com/oauth/access_token";
+    protected  $accessTokenUrl  = "https://api-ssl.bitly.com/oauth/access_token";
     protected  $protectedResourceUrl =  "";
 
 
@@ -49,7 +49,62 @@ class BitlyProvider extends OAuth2Impl
 
     public function getAccessToken()
     {
-        //TODO:Implementation should goes here
+
+        if($this->requestTokenResponse['response_status']=='success'){
+
+
+            $requestParameterArray = array('code'=> $this->requestTokenResponse["request_token"],
+                'client_id'=> $this->clientAppConfig->getApplicationId(),
+                'client_secret'=> $this->clientAppConfig->getApplicationSecret(),
+                'redirect_uri'=>$this->clientAppConfig->getRedirectUrl(),
+                'grant_type'=> 'authorization_code'
+            );
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $this->accessTokenUrl);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_POST ,true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($requestParameterArray));
+            curl_setopt($ch, CURLOPT_HTTPHEADER,array('Content-Type: application/x-www-form-urlencoded'));
+
+            $response = curl_exec($ch);
+
+            curl_close($ch);
+
+            if(!empty($response)){
+
+                parse_str($response, $responseParameterArray);
+
+                //extracting the access token if it is available
+                if(array_key_exists("access_token",$responseParameterArray)){
+
+                    $this->accessTokenResponse = $responseParameterArray;
+                    $this->accessTokenResponse['response_status'] = "success";
+
+                }
+                else if(array_key_exists("error",$responseParameterArray) ){
+
+                    $this->accessTokenResponse['response_status'] = "error";
+                    $this->accessTokenResponse['error_code'] = $responseParameterArray['error'];
+                }
+            }
+            else{
+
+                //if there is no response from the server
+                $this->accessTokenResponse['response_status'] = "error";
+                $this->accessTokenResponse['error_code'] = 'no_response';
+
+            }
+        }
+        else{
+
+            //if the request token is not available
+            $this->accessTokenResponse = $this->requestTokenResponse;
+        }
+
+        return  $this->accessTokenResponse;
+
     }
 
 
