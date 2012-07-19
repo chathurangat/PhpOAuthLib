@@ -1,0 +1,40 @@
+@charset "utf-8";
+/* CSS Document */
+
+#main-content table {
+                width: 100%;
+                border-collapse: collapse;
+                }
+                
+#main-content table thead th {
+                font-weight: bold;
+                font-size: 15px;
+                border-bottom: 1px solid #ddd;
+                }
+                
+#main-content tbody {
+                border-bottom: 1px solid #ddd;
+                }
+                
+#main-content tbody tr {
+                background: #fff;
+                }
+              
+#main-content tbody tr.alt-row {
+                background: #f3f3f3;
+                }
+                
+#main-content table td,
+#main-content table th {
+                padding: 10px;
+                line-height: 1.3em;
+                }        
+				
+#main-content table tfoot td .bulk-actions {
+                padding: 15px 0 5px 0;
+                } 
+				
+#main-content table tfoot td .bulk-actions select {
+                padding: 4px;
+				border: 1px solid #ccc;
+                }      
