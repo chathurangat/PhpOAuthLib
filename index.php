@@ -13,7 +13,7 @@
 echo "<h3>Welcome to the PHP OAuth Library (PhpOAuthLib)</h3> <br/><br/>";
 
 
-echo "The examples can be accessible through following links <br/><br/>";
+echo "The complete examples can be accessible through following links <br/><br/>";
 
 
 
@@ -25,6 +25,7 @@ echo '<a href="OAuthLib/examples/GitHub/GitHubExample.php"> GitHub Example </a> 
 
 echo '<a href="OAuthLib/examples/Foursquare/FoursquareExample.php"> Foursquare Example </a> <br/><br/>';
 
+echo '<a href="OAuthLib/examples/Bitly/BitlyExample.php"> Bitly Example </a> <br/><br/>';
 
 
 ?>

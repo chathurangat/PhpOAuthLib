@@ -56,9 +56,8 @@ if(isset($_GET["state"])){
     $requestTokenResponse = $providerInstance->getRequestToken();
 
     print_r($requestTokenResponse);
-
     $accessTokenResponse  =  $providerInstance->getAccessToken();
-
+    echo " Retrieving Data from Facebook 3<br/>";
     echo "<br/><br/>";
 
     print_r($accessTokenResponse);

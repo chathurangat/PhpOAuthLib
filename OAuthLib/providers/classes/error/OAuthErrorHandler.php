@@ -75,7 +75,6 @@ class OAuthErrorHandler
                 return "user denied the application authorization in Foursquare and Google";
                 break;
 
-
             case 'invalid_auth':
                 return "Missing Access credentials";
                 break;
@@ -89,6 +88,4 @@ class OAuthErrorHandler
                 break;
         }
     }
-
-
 }

@@ -17,7 +17,6 @@ require_once  "classes/FoursquareProvider.php";
 require_once  "classes/WindowsLiveProvider.php";
 require_once  "classes/BitlyProvider.php";
 
-
 if(session_id()==""){
     session_start();
 }
@@ -67,7 +66,6 @@ class OAuthProviderFactory
 
 
     static function getOAuthProvider($provider){
-
         //getting the stored provider instance from the session
         switch($provider){
 
@@ -100,10 +98,7 @@ class OAuthProviderFactory
                 echo "Invalid OAuth Provider";
                 break;
         }
-
         return OAuthUtil::getOriginalInstance($alteredProviderInstance);
-
     }
-
 }
 ?>

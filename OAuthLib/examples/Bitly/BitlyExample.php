@@ -25,7 +25,7 @@ if(!isset($_GET['code'])){
 
     $config->setApplicationSecret("4bb05f1b9b4bb989f574d0163bb0adf2862f12be");
 
-    $config->setRedirectUrl("http://localhost/PhpOAuthLib/OAuthLib/examples/bitly/BitlyExample.php");
+    $config->setRedirectUrl("http://localhost/PhpOAuthLib/OAuthLib/examples/Bitly/BitlyExample.php");
 
     $config->setOAuthProvider(OAuthProvider::BITLY);
 

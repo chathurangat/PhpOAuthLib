@@ -17,6 +17,6 @@ class OAuthProvider
     const GitHub = "github";
     const Foursquare = "foursquare";
     const WindowsLive = "windows_live";
-    const BITLY = "bitly";
+    const BITLY = "Bitly";
 
 }

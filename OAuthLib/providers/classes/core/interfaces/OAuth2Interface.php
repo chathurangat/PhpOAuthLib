@@ -9,7 +9,6 @@
  */
 interface  OAuth2Interface
 {
-
     public  function getAuthorizationUrl();
 
     public  function getAccessToken();
@@ -21,6 +20,5 @@ interface  OAuth2Interface
     public function retrieveRequestedResourceData();
 
 }
-
 ?>
 
