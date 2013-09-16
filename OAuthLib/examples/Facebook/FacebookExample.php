@@ -64,8 +64,6 @@ if(isset($_GET["state"])){
 
     echo "Access Token Response <br/>";
 
-//print_r($accessTokenResponse);
-
     if(($accessTokenResponse['response_status']=='success') && (array_key_exists('access_token',$accessTokenResponse))){
 
         echo "<br/>Access Token Retrieved [".$accessTokenResponse['access_token'];
@@ -74,6 +72,9 @@ if(isset($_GET["state"])){
         echo "<br/>retrieiving user profile data</br>";
         $user_profile = $providerInstance->getProtectedResource();
 
+        echo "<br/> <br> displaying user profile picture <br/>";
+        echo "<img src=\"https://graph.facebook.com/".$user_profile["username"]."/picture?type=large\">";
+        echo "<br/> <br>";
         print_r($user_profile);
 
     }
@@ -86,6 +87,7 @@ if(isset($_GET["state"])){
         $error = OAuthErrorHandler::getErrorDescription($errorCode);
 
         echo "<br/> error is [".$error."]";
+
 
     }
 

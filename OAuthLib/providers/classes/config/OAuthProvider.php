@@ -18,5 +18,6 @@ class OAuthProvider
     const Foursquare = "foursquare";
     const WindowsLive = "windows_live";
     const BITLY = "Bitly";
+    const Twitter = "Twitter";
 
 }

@@ -16,6 +16,7 @@ require_once  "classes/GitHubProvider.php";
 require_once  "classes/FoursquareProvider.php";
 require_once  "classes/WindowsLiveProvider.php";
 require_once  "classes/BitlyProvider.php";
+require_once  "classes/TwitterProvider.inc.php";
 
 if(session_id()==""){
     session_start();
@@ -25,7 +26,6 @@ class OAuthProviderFactory
 {
 
     static function getOAuthProviderInstance(OAuthClientConfig $config){
-
         //getting the OAuth Provider
         $provider = $config->getOAuthProvider();
 
@@ -53,6 +53,10 @@ class OAuthProviderFactory
 
             case OAuthProvider::BITLY:
                 return new BitlyProvider($config);
+                break;
+
+            case OAuthProvider::Twitter:
+                return new TwitterProvider($config);
                 break;
 
             default:
