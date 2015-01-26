@@ -64,6 +64,8 @@ class TwitterProvider extends OAuth1Impl{
      */
     public function getAuthorizationUrl(OAuth1RequestTokenResponse $requestTokenResponse)
     {
+        echo "request token response [".$requestTokenResponse->getRequestToken()."]";
+
         if($requestTokenResponse!=null && $requestTokenResponse->getRequestToken()!=null){
             $this->authorizeUrl = $this->AUTHORIZATION_ENDPOINT."?oauth_token=".$requestTokenResponse->getRequestToken();
         }
@@ -86,8 +88,9 @@ class TwitterProvider extends OAuth1Impl{
         $http_query_string =http_build_query($parameter_array);
         $accessTokenUrl = $this->REQUEST_TOKEN_ENDPOINT."?" .$http_query_string;
 //        $_SESSION["TwitterProvider"] = OAuthUtil::setUpInstance($this);
-       echo "Access token url [".$accessTokenUrl."]";
+        echo "Access token url [".$accessTokenUrl."]";
         $response = $this->do_curl_get($accessTokenUrl);
+        echo "response [".$response."]";
         if(!empty($response)){
             echo "res[".$response."]";
             //parse the query string into array

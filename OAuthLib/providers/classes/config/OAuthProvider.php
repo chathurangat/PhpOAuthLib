@@ -19,5 +19,6 @@ class OAuthProvider
     const WindowsLive = "windows_live";
     const BITLY = "Bitly";
     const Twitter = "Twitter";
+    const Youtube = "Youtube";
 
 }

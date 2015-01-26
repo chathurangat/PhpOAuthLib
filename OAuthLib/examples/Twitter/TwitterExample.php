@@ -22,7 +22,9 @@ session_start();
     $config->setApplicationSecret("agg0Ql6EqcD5rX2a7pz4PFHJJTiscCftwatxfUb30");
 
     //the redirect URL given during application registration
-    $config->setRedirectUrl("http://fosshub.org/PhpOAuthLib/OAuthLib/examples/Twitter/TwitterExample.php");
+//    $config->setRedirectUrl("http://fosshub.org/PhpOAuthLib/OAuthLib/examples/Twitter/TwitterExample.php");
+    $config->setRedirectUrl("http://localhost/PhpOAuthLib/OAuthLib/examples/Twitter/TwitterExample.php");
+//    $config->setRedirectUrl("http://www.chathurangaonline.com/oauth-php");
 
     //your desired OAuth Provider
     $config->setOAuthProvider(OAuthProvider::Twitter);
