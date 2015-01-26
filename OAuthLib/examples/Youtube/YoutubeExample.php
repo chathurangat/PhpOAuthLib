@@ -26,17 +26,19 @@ if(!isset($_GET['state'])){
     $config->setRedirectUrl("http://localhost/PhpOAuthLib/OAuthLib/examples/Youtube/YoutubeExample.php");
 
     //your desired OAuth Provider
-    $config->setOAuthProvider(OAuthProvider::GOOGLE);
+    $config->setOAuthProvider(OAuthProvider::Youtube);
 
     //setting up the state
     $config->setState();
 
     //setting up the scope
     $config->setScope("https://www.googleapis.com/auth/youtube");
+//    $config->setScope("https://gdata.youtube.com/feeds/api/users/default");
+//    $config->setScope("https://gdata.youtube.com");
+
 
     //retrieving the Google OAuth Provider instance by giving the configuration object
     $providerInstance = OAuthProviderFactory::getOAuthProviderInstance($config);
-
 
     if($providerInstance!=NULL){
 
@@ -53,7 +55,7 @@ if(isset($_GET["code"]) || isset($_GET["error"])){
     echo " Retrieving Data from Google <br/>";
 
     $providerInstance = new OAuth2Impl();
-    $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::GOOGLE);
+    $providerInstance = OAuthProviderFactory::getOAuthProvider(OAuthProvider::Youtube);
 
     $protectedResourceResponse  =  $providerInstance->retrieveRequestedResourceData();
 

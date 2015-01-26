@@ -17,6 +17,7 @@ require_once  "classes/FoursquareProvider.php";
 require_once  "classes/WindowsLiveProvider.php";
 require_once  "classes/BitlyProvider.php";
 require_once  "classes/TwitterProvider.inc.php";
+require_once  "classes/YoutubeProvider.php";
 
 if(session_id()==""){
     session_start();
@@ -37,6 +38,10 @@ class OAuthProviderFactory
 
             case OAuthProvider::GOOGLE :
                 return new GoogleProvider($config);
+                break;
+
+            case OAuthProvider::Youtube :
+                return new YoutubeProvider($config);
                 break;
 
             case OAuthProvider::GitHub :
@@ -79,6 +84,10 @@ class OAuthProviderFactory
 
             case OAuthProvider::GOOGLE :
                 $alteredProviderInstance = $_SESSION["GoogleProvider"];
+                break;
+
+            case OAuthProvider::Youtube :
+                $alteredProviderInstance = $_SESSION["YoutubeProvider"];
                 break;
 
             case OAuthProvider::GitHub :
